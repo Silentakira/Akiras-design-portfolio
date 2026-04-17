@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F5F2EC;
+  --ink: #0D0D0D;
+  --lime: #CAFF00;
+  --muted: #888888;
+  --ghost: #555555;
+  --black: #0D0D0D;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  overflow-x: hidden;
+  cursor: none; /* Custom cursor on desktop */
+}
+
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Custom Cursor */
+#cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background-color: var(--lime);
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#cursor.hovered {
+  transform: scale(2);
+}
+
+@media (pointer: coarse) {
+  #cursor {
+    display: none;
+  }
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.8;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-8deg) translateY(60px);
+  }
+  to {
+    transform: rotate(-1.5deg) translateY(0);
+  }
+}
+
+@keyframes floodFromLeft {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@keyframes stampIn {
+  0% {
+    transform: scale(3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  section {
+    scroll-snap-type: none;
+  }
+}
+
+/* Utility classes */
+.text-bebas {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.text-dm-mono {
+  font-family: 'DM Mono', monospace;
+}
+
+.text-playfair {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+}
+
+/* Status bar marquee for mobile */
+@media (max-width: 768px) {
+  .status-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
+  .status-marquee:hover {
+    animation-duration: 10s;
+  }
+}
