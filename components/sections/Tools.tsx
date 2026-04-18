@@ -11,71 +11,79 @@ interface ToolSpec {
   indent: string;
   indentMobile: string;
   color: string;
+  isOutlined: boolean;
 }
 
 const toolSpecs: ToolSpec[] = [
   {
     name: "Figma",
     fontSize: "7rem",
-    fontSizeMobile: "4.2rem",
+    fontSizeMobile: "3.8rem",
     fontFamily: "Bebas Neue",
     indent: "0%",
     indentMobile: "0%",
-    color: "#CAFF00",
+    color: "#F5F2EC",
+    isOutlined: true,
   },
   {
     name: "Illustrator",
     fontSize: "3rem",
-    fontSizeMobile: "1.8rem",
+    fontSizeMobile: "1.6rem",
     fontFamily: "DM Mono",
     indent: "8%",
     indentMobile: "4%",
     color: "#0D0D0D",
+    isOutlined: false,
   },
   {
     name: "Photoshop",
     fontSize: "5rem",
-    fontSizeMobile: "3rem",
+    fontSizeMobile: "2.7rem",
     fontFamily: "Bebas Neue",
     indent: "20%",
     indentMobile: "10%",
     color: "#0D0D0D",
+    isOutlined: false,
   },
   {
     name: "Affinity Designer",
     fontSize: "2rem",
-    fontSizeMobile: "1.2rem",
+    fontSizeMobile: "1.3rem", // Increased from 1.2rem for better fit
     fontFamily: "DM Mono",
     indent: "5%",
-    indentMobile: "2%",
+    indentMobile: "2%", // Reduced from 2%
     color: "#0D0D0D",
+    isOutlined: false,
   },
   {
     name: "Affinity Photo",
     fontSize: "6rem",
-    fontSizeMobile: "3.6rem",
+    fontSizeMobile: "3.2rem",
     fontFamily: "Bebas Neue",
     indent: "30%",
-    indentMobile: "15%",
+    indentMobile: "12%", // Reduced from 15%
     color: "#0D0D0D",
+    isOutlined: false,
   },
   {
     name: "Photomator",
     fontSize: "2.5rem",
-    fontSizeMobile: "1.5rem",
+    fontSizeMobile: "1.4rem",
     fontFamily: "DM Mono",
     indent: "15%",
-    indentMobile: "8%",
+    indentMobile: "6%", // Reduced from 8%
     color: "#0D0D0D",
+    isOutlined: false,
   },
   {
     name: "Affinity Publisher",
     fontSize: "4rem",
-    fontSizeMobile: "2.4rem",
+    fontSizeMobile: "2.1rem", // Reduced from 2.4rem to fit better
     fontFamily: "Bebas Neue",
     indent: "40%",
-    indentMobile: "20%",
+    indentMobile: "8%", // Significantly reduced from 20%
     color: "#0D0D0D",
+    isOutlined: false,
   },
 ];
 
@@ -116,7 +124,6 @@ export default function Tools() {
   }, []);
 
   const startTypewriterSequence = () => {
-    // Clear any existing animation
     if (animationTimeoutRef.current) {
       clearTimeout(animationTimeoutRef.current);
     }
@@ -132,7 +139,6 @@ export default function Tools() {
       const tool = toolSpecs[currentTool];
       let currentChar = 0;
 
-      // Show cursor for current tool
       setCursorStates(prev => {
         const newStates = [...prev];
         newStates[currentTool] = true;
@@ -150,7 +156,6 @@ export default function Tools() {
 
           animationTimeoutRef.current = setTimeout(typeChar, 30);
         } else {
-          // Hide cursor for current tool
           setCursorStates(prev => {
             const newStates = [...prev];
             newStates[currentTool] = false;
@@ -176,12 +181,12 @@ export default function Tools() {
     setCursorStates([]);
   };
 
-  const swapFont = (fontFamily: "Bebas Neue" | "DM Mono") => {
-    return fontFamily === "Bebas Neue" ? "DM Mono, monospace" : "Bebas Neue, sans-serif";
-  };
-
   return (
-    <section ref={sectionRef} className="relative h-screen bg-bg overflow-hidden" style={{ paddingTop: "36px" }}>
+    <section
+      ref={sectionRef}
+      className="relative h-screen bg-bg overflow-hidden"
+      style={{ paddingTop: "36px", overflowX: "hidden" }}
+    >
       <div className="relative h-full flex">
         {/* Section label - right side */}
         <div className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-10">
@@ -196,11 +201,10 @@ export default function Tools() {
         </div>
 
         {/* Tools stack - left aligned with indents */}
-        <div className="flex-1 flex flex-col justify-center px-8 md:px-16 overflow-y-auto">
+        <div className="flex-1 flex flex-col justify-center px-4 md:px-16 overflow-y-auto overflow-x-hidden">
           {toolSpecs.map((tool, index) => {
-            const isHovered = hoveredTool === index;
-            const displayFont = isHovered ? swapFont(tool.fontFamily) : (tool.fontFamily === "Bebas Neue" ? "Bebas Neue, sans-serif" : "DM Mono, monospace");
             const displayText = typingStates[index] || "";
+            const isHovered = hoveredTool === index;
             const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
             return (
@@ -218,17 +222,39 @@ export default function Tools() {
                 onTouchEnd={() => setHoveredTool(null)}
               >
                 <div
-                  className="whitespace-nowrap"
+                  className="tool-name inline-block relative"
                   style={{
                     fontSize: isMobile ? tool.fontSizeMobile : tool.fontSize,
-                    fontFamily: displayFont,
-                    color: tool.color,
+                    fontFamily: tool.fontFamily === "Bebas Neue" ? "Bebas Neue, sans-serif" : "DM Mono, monospace",
                     lineHeight: 1.1,
                     textTransform: tool.fontFamily === "Bebas Neue" ? "uppercase" : "lowercase",
-                    transition: "font-family 0s",
                   }}
                 >
-                  {displayText}
+                  {/* Original text (always visible) */}
+                  <span
+                    className="original block"
+                    style={{
+                      color: tool.isOutlined && !isHovered ? "#F5F2EC" : tool.color,
+                      WebkitTextStroke: tool.isOutlined && !isHovered ? "2px #CAFF00" : "none",
+                    }}
+                  >
+                    {displayText}
+                  </span>
+
+                  {/* Lime copy (reveals on hover) */}
+                  <span
+                    className="lime-copy block absolute inset-0"
+                    style={{
+                      color: tool.isOutlined ? "#F5F2EC" : "#CAFF00",
+                      WebkitTextStroke: tool.isOutlined ? "2px #CAFF00" : "none",
+                      clipPath: isHovered ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
+                      transition: "clip-path 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
+                  >
+                    {displayText}
+                  </span>
+
+                  {/* Blinking cursor */}
                   {cursorStates[index] && (
                     <span
                       className="inline-block ml-1"

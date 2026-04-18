@@ -207,6 +207,29 @@ section {
   font-style: italic;
 }
 
+/* Tool name hover animation */
+.tool-name {
+  position: relative;
+  display: inline-block;
+}
+
+.tool-name .original {
+  color: var(--ink);
+}
+
+.tool-name .lime-copy {
+  position: absolute;
+  inset: 0;
+  color: var(--lime);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tool-name:hover .lime-copy,
+.tool-name:active .lime-copy {
+  clip-path: inset(0% 0 0 0);
+}
+
 /* Status bar marquee for mobile */
 @media (max-width: 768px) {
   .status-marquee {
