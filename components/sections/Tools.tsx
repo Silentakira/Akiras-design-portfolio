@@ -148,12 +148,12 @@ export default function Tools() {
                   transform: isVisible ? "translateX(0)" : "translateX(-20px)",
                   transition: `opacity 0.4s ease ${index * 0.1}s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) ${index * 0.1}s`,
                   lineHeight: "1",
-                  marginBottom: index < toolSpecs.length - 1 ? "0.15rem" : "0",
+                  marginBottom: isMobile ? (index < toolSpecs.length - 1 ? "0.6rem" : "0") : (index < toolSpecs.length - 1 ? "0.15rem" : "0"),
                 }}
                 onMouseEnter={() => setHoveredTool(index)}
                 onMouseLeave={() => setHoveredTool(null)}
                 onTouchStart={() => setHoveredTool(index)}
-                onTouchEnd={() => setHoveredTool(null)}
+                onTouchEnd={() => setHoveredTool(null))}
               >
                 <div
                   className="tool-name inline-block relative"
