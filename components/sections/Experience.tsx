@@ -99,7 +99,7 @@ export default function Experience() {
                   {job.company}
                 </h3>
                 <p className="text-dm-mono text-sm text-ink mt-2 font-medium">{job.role}</p>
-                <span className="block text-dm-mono text-xs text-muted mt-1">
+                <span className="block text-dm-mono text-sm text-muted mt-1">
                   {job.date} {job.location && `· ${job.location.split(" ")[0]}`}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function Experience() {
               }}
             >
               <h3
-                className={`text-bebas text-xl ${index === 0 ? "text-lime" : "text-ink"}`}
+                className={`text-bebas text-2xl ${index === 0 ? "text-lime" : "text-ink"}`}
                 style={{
                   textShadow: index === 0 ? "1px 1px 0 #0D0D0D, -1px -1px 0 #0D0D0D, 1px -1px 0 #0D0D0D, -1px 1px 0 #0D0D0D" : "none",
                   lineHeight: 1.1,
@@ -141,10 +141,10 @@ export default function Experience() {
               >
                 {job.company}
               </h3>
-              <p className="text-dm-mono text-xs text-ink mt-1">{job.role}</p>
-              <p className="text-dm-mono text-xs text-muted mt-1">{job.date}</p>
+              <p className="text-dm-mono text-sm text-ink mt-1">{job.role}</p>
+              <p className="text-dm-mono text-sm text-muted mt-1">{job.date}</p>
               {job.location && (
-                <p className="text-dm-mono text-xs text-muted">{job.location}</p>
+                <p className="text-dm-mono text-sm text-muted">{job.location}</p>
               )}
             </div>
           ))}

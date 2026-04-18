@@ -62,10 +62,10 @@ export default function Education() {
             <h2 className="text-bebas text-3xl md:text-4xl text-ink mb-2">
               {education.degree}
             </h2>
-            <p className="text-dm-mono text-sm text-ink">
+            <p className="text-dm-mono text-base text-ink">
               {education.location} · {education.date}
             </p>
-            <p className="text-dm-mono text-xs text-muted mt-1">
+            <p className="text-dm-mono text-sm text-muted mt-1">
               {education.details}
             </p>
           </div>
@@ -90,10 +90,10 @@ export default function Education() {
                   transition: "opacity 0.6s ease 0.4s",
                 }}
               >
-                <div className="text-bebas text-xl text-ink">
+                <div className="text-bebas text-2xl text-ink">
                   {achievement.title}
                 </div>
-                <div className="text-dm-mono text-xs text-muted">
+                <div className="text-dm-mono text-sm text-muted">
                   {achievement.description}
                 </div>
               </div>

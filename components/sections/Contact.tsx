@@ -57,7 +57,7 @@ export default function Contact() {
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-8 text-center">
         {/* Pre-title */}
         <p
-          className="text-dm-mono text-lime text-[0.8rem] mb-4"
+          className="text-dm-mono text-lime text-sm mb-4"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(20px)",
@@ -107,7 +107,7 @@ export default function Contact() {
 
         {/* Phone */}
         <p
-          className="text-dm-mono text-muted text-[0.85rem] mb-4"
+          className="text-dm-mono text-muted text-sm mb-4"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(20px)",
@@ -134,7 +134,7 @@ export default function Contact() {
 
         {/* Location */}
         <p
-          className="text-dm-mono text-ghost text-[0.75rem]"
+          className="text-dm-mono text-ghost text-xs"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(20px)",

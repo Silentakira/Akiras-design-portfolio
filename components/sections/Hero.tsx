@@ -93,7 +93,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <div className="absolute bottom-16 left-8 md:left-16">
-          <p className="text-dm-mono text-[0.85rem] text-ink">
+          <p className="text-dm-mono text-sm text-ink">
             {personalInfo.title}
             <span className="animate-blink">|</span>
           </p>
