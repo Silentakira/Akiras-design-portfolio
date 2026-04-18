@@ -17,12 +17,12 @@ interface ToolSpec {
 const toolSpecs: ToolSpec[] = [
   {
     name: "Figma",
-    fontSize: "7rem",
+    fontSize: "6rem", // Reduced from 7rem
     fontSizeMobile: "3.8rem",
     fontFamily: "Bebas Neue",
     indent: "0%",
     indentMobile: "0%",
-    color: "#F5F2EC",
+    color: "#CAFF00",
     isOutlined: true,
   },
   {
@@ -48,20 +48,20 @@ const toolSpecs: ToolSpec[] = [
   {
     name: "Affinity Designer",
     fontSize: "2rem",
-    fontSizeMobile: "1.3rem", // Increased from 1.2rem for better fit
+    fontSizeMobile: "1.3rem",
     fontFamily: "DM Mono",
     indent: "5%",
-    indentMobile: "2%", // Reduced from 2%
+    indentMobile: "2%",
     color: "#0D0D0D",
     isOutlined: false,
   },
   {
     name: "Affinity Photo",
-    fontSize: "6rem",
+    fontSize: "5rem", // Reduced from 6rem
     fontSizeMobile: "3.2rem",
     fontFamily: "Bebas Neue",
     indent: "30%",
-    indentMobile: "12%", // Reduced from 15%
+    indentMobile: "12%",
     color: "#0D0D0D",
     isOutlined: false,
   },
@@ -71,17 +71,17 @@ const toolSpecs: ToolSpec[] = [
     fontSizeMobile: "1.4rem",
     fontFamily: "DM Mono",
     indent: "15%",
-    indentMobile: "6%", // Reduced from 8%
+    indentMobile: "6%",
     color: "#0D0D0D",
     isOutlined: false,
   },
   {
     name: "Affinity Publisher",
     fontSize: "4rem",
-    fontSizeMobile: "2.1rem", // Reduced from 2.4rem to fit better
+    fontSizeMobile: "2.1rem",
     fontFamily: "Bebas Neue",
     indent: "40%",
-    indentMobile: "8%", // Significantly reduced from 20%
+    indentMobile: "8%",
     color: "#0D0D0D",
     isOutlined: false,
   },
@@ -200,8 +200,8 @@ export default function Tools() {
           </div>
         </div>
 
-        {/* Tools stack - left aligned with indents */}
-        <div className="flex-1 flex flex-col justify-center px-4 md:px-16 overflow-y-auto overflow-x-hidden">
+        {/* Tools stack - left aligned with indents, tight spacing */}
+        <div className="flex-1 flex flex-col justify-center px-4 md:px-16">
           {toolSpecs.map((tool, index) => {
             const displayText = typingStates[index] || "";
             const isHovered = hoveredTool === index;
@@ -210,11 +210,13 @@ export default function Tools() {
             return (
               <div
                 key={tool.name}
-                className="relative interactive py-2"
+                className="relative interactive"
                 style={{
                   paddingLeft: isMobile ? tool.indentMobile : tool.indent,
                   opacity: isVisible ? 1 : 0,
                   transition: "opacity 0.3s ease",
+                  lineHeight: "1",
+                  marginBottom: index < toolSpecs.length - 1 ? "0.25rem" : "0",
                 }}
                 onMouseEnter={() => setHoveredTool(index)}
                 onMouseLeave={() => setHoveredTool(null)}
@@ -226,7 +228,7 @@ export default function Tools() {
                   style={{
                     fontSize: isMobile ? tool.fontSizeMobile : tool.fontSize,
                     fontFamily: tool.fontFamily === "Bebas Neue" ? "Bebas Neue, sans-serif" : "DM Mono, monospace",
-                    lineHeight: 1.1,
+                    lineHeight: "1",
                     textTransform: tool.fontFamily === "Bebas Neue" ? "uppercase" : "lowercase",
                   }}
                 >
@@ -234,8 +236,10 @@ export default function Tools() {
                   <span
                     className="original block"
                     style={{
-                      color: tool.isOutlined && !isHovered ? "#F5F2EC" : tool.color,
-                      WebkitTextStroke: tool.isOutlined && !isHovered ? "2px #CAFF00" : "none",
+                      color: tool.isOutlined ? "#CAFF00" : tool.color,
+                      textShadow: tool.isOutlined
+                        ? "-1px -1px 0 #0D0D0D, 1px -1px 0 #0D0D0D, -1px 1px 0 #0D0D0D, 1px 1px 0 #0D0D0D"
+                        : "none",
                     }}
                   >
                     {displayText}
@@ -245,8 +249,7 @@ export default function Tools() {
                   <span
                     className="lime-copy block absolute inset-0"
                     style={{
-                      color: tool.isOutlined ? "#F5F2EC" : "#CAFF00",
-                      WebkitTextStroke: tool.isOutlined ? "2px #CAFF00" : "none",
+                      color: tool.isOutlined ? "#CAFF00" : "#CAFF00",
                       clipPath: isHovered ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
                       transition: "clip-path 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
