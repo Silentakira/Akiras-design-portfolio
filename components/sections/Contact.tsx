@@ -68,7 +68,7 @@ export default function Contact() {
         </p>
 
         {/* Title - Letter assembly */}
-        <h1 className="text-bebas text-white text-[12vw] md:text-[12vw] leading-none mb-8 relative">
+        <h1 className="text-bebas text-white text-[12vw] md:text-[12vw] leading-none mb-8 relative" style={{wordSpacing: "0.15em"}}>
           {title.split("").map((letter, index) => {
             const transform = isClient && clientTransforms[index] ? clientTransforms[index] : {x: 0, y: 0, r: 0};
 
@@ -84,7 +84,7 @@ export default function Contact() {
                   transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index * 20}ms, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index * 20}ms`,
                 }}
               >
-                {scramble ? String.fromCharCode(65 + Math.floor(Math.random() * 26)) : letter}
+                {scramble ? String.fromCharCode(65 + Math.floor(Math.random() * 26)) : (letter === " " ? "\u00A0" : letter)}
               </span>
             );
           })}
