@@ -17,7 +17,7 @@ interface ToolSpec {
 const toolSpecs: ToolSpec[] = [
   {
     name: "Figma",
-    fontSize: "6rem", // Scaled from 4rem
+    fontSize: "4rem",
     fontSizeMobile: "2.2rem",
     fontFamily: "Bebas Neue",
     indent: "0%",
@@ -27,7 +27,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Illustrator",
-    fontSize: "3rem", // Scaled from 2rem
+    fontSize: "2rem",
     fontSizeMobile: "1.1rem",
     fontFamily: "DM Mono",
     indent: "8%",
@@ -37,7 +37,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Photoshop",
-    fontSize: "4.5rem", // Scaled from 3rem
+    fontSize: "3rem",
     fontSizeMobile: "1.7rem",
     fontFamily: "Bebas Neue",
     indent: "20%",
@@ -47,7 +47,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Designer",
-    fontSize: "2rem", // Scaled from 1.3rem
+    fontSize: "1.3rem",
     fontSizeMobile: "0.9rem",
     fontFamily: "DM Mono",
     indent: "5%",
@@ -57,7 +57,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Photo",
-    fontSize: "4.8rem", // Scaled from 3.2rem
+    fontSize: "3.2rem",
     fontSizeMobile: "1.9rem",
     fontFamily: "Bebas Neue",
     indent: "30%",
@@ -67,7 +67,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Photomator",
-    fontSize: "2.4rem", // Scaled from 1.6rem
+    fontSize: "1.6rem",
     fontSizeMobile: "1rem",
     fontFamily: "DM Mono",
     indent: "15%",
@@ -77,7 +77,7 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Publisher",
-    fontSize: "3.8rem", // Scaled from 2.5rem
+    fontSize: "2.5rem",
     fontSizeMobile: "1.4rem",
     fontFamily: "Bebas Neue",
     indent: "40%",
@@ -88,91 +88,18 @@ const toolSpecs: ToolSpec[] = [
 ];
 
 export default function Tools() {
-  const [typedChars, setTypedChars] = useState<number[]>(new Array(toolSpecs.length).fill(0));
-  const [cursorStates, setCursorStates] = useState<boolean[]>(new Array(toolSpecs.length).fill(false));
+  const [isVisible, setIsVisible] = useState(false);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const intervalsRef = useRef<NodeJS.Timeout[]>([]);
-
-  const resetAnimation = () => {
-    // Clear all intervals
-    intervalsRef.current.forEach(clearInterval);
-    intervalsRef.current = [];
-    // Reset all state to zeros/invisible
-    setTypedChars(new Array(toolSpecs.length).fill(0));
-    setCursorStates(new Array(toolSpecs.length).fill(false));
-  };
-
-  const startTypewriterSequence = () => {
-    resetAnimation();
-
-    let currentTool = 0;
-
-    const typeNextTool = () => {
-      if (currentTool >= toolSpecs.length) return;
-
-      const tool = toolSpecs[currentTool];
-
-      // Show cursor for current tool
-      setCursorStates(prev => {
-        const newStates = [...prev];
-        newStates[currentTool] = true;
-        return newStates;
-      });
-
-      let charCount = 0;
-
-      const typeChar = () => {
-        if (charCount <= tool.name.length) {
-          setTypedChars(prev => {
-            const newStates = [...prev];
-            newStates[currentTool] = charCount;
-            return newStates;
-          });
-          charCount++;
-
-          const intervalId = setInterval(() => {
-            setTypedChars(prev => {
-              const newStates = [...prev];
-              newStates[currentTool] = charCount;
-              return newStates;
-            });
-            charCount++;
-
-            if (charCount > tool.name.length) {
-              clearInterval(intervalId);
-              // Hide cursor for current tool
-              setCursorStates(prev => {
-                const newStates = [...prev];
-                newStates[currentTool] = false;
-                return newStates;
-              });
-              // Move to next tool after 200ms gap
-              currentTool++;
-              setTimeout(typeNextTool, 200);
-            }
-          }, 30);
-
-          intervalsRef.current.push(intervalId);
-        }
-      };
-
-      typeChar();
-    };
-
-    typeNextTool();
-  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Section entered - start animation
-            startTypewriterSequence();
+            setIsVisible(true);
           } else {
-            // Section left - instant reset
-            resetAnimation();
+            setIsVisible(false);
           }
         });
       },
@@ -183,10 +110,7 @@ export default function Tools() {
       observer.observe(sectionRef.current);
     }
 
-    return () => {
-      observer.disconnect();
-      resetAnimation();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -208,12 +132,11 @@ export default function Tools() {
           </div>
         </div>
 
-        {/* Tools stack - typewriter animation */}
+        {/* Tools stack - clean display with simple assemble animation */}
         <div className="flex-1 flex flex-col justify-center px-4 md:px-16">
           {toolSpecs.map((tool, index) => {
             const isHovered = hoveredTool === index;
             const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-            const currentText = tool.name.slice(0, typedChars[index]);
 
             return (
               <div
@@ -221,6 +144,9 @@ export default function Tools() {
                 className="relative interactive"
                 style={{
                   paddingLeft: isMobile ? tool.indentMobile : tool.indent,
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateX(0)" : "translateX(-20px)",
+                  transition: `opacity 0.4s ease ${index * 0.1}s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) ${index * 0.1}s`,
                   lineHeight: "1",
                   marginBottom: index < toolSpecs.length - 1 ? "0.15rem" : "0",
                 }}
@@ -238,7 +164,7 @@ export default function Tools() {
                     textTransform: tool.fontFamily === "Bebas Neue" ? "uppercase" : "lowercase",
                   }}
                 >
-                  {/* Original text (currently typed) */}
+                  {/* Original text (always visible) */}
                   <span
                     className="original block"
                     style={{
@@ -248,7 +174,7 @@ export default function Tools() {
                         : "none",
                     }}
                   >
-                    {currentText}
+                    {tool.name}
                   </span>
 
                   {/* Lime copy (reveals on hover) */}
@@ -260,22 +186,8 @@ export default function Tools() {
                       transition: "clip-path 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                   >
-                    {currentText}
+                    {tool.name}
                   </span>
-
-                  {/* Blinking cursor (only while typing) */}
-                  {cursorStates[index] && (
-                    <span
-                      className="inline-block ml-1"
-                      style={{
-                        color: "#CAFF00",
-                        fontSize: "0.8em",
-                        animation: "blink 0.7s step-end infinite",
-                      }}
-                    >
-                      ▌
-                    </span>
-                  )}
                 </div>
               </div>
             );
