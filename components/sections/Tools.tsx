@@ -17,8 +17,8 @@ interface ToolSpec {
 const toolSpecs: ToolSpec[] = [
   {
     name: "Figma",
-    fontSize: "6rem", // Reduced from 7rem
-    fontSizeMobile: "3.8rem",
+    fontSize: "5rem", // Further reduced from 6rem
+    fontSizeMobile: "2.8rem", // Reduced from 3.8rem
     fontFamily: "Bebas Neue",
     indent: "0%",
     indentMobile: "0%",
@@ -27,8 +27,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Illustrator",
-    fontSize: "3rem",
-    fontSizeMobile: "1.6rem",
+    fontSize: "2.5rem", // Reduced from 3rem
+    fontSizeMobile: "1.3rem", // Reduced from 1.6rem
     fontFamily: "DM Mono",
     indent: "8%",
     indentMobile: "4%",
@@ -37,8 +37,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Photoshop",
-    fontSize: "5rem",
-    fontSizeMobile: "2.7rem",
+    fontSize: "4rem", // Reduced from 5rem
+    fontSizeMobile: "2.2rem", // Reduced from 2.7rem
     fontFamily: "Bebas Neue",
     indent: "20%",
     indentMobile: "10%",
@@ -47,8 +47,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Designer",
-    fontSize: "2rem",
-    fontSizeMobile: "1.3rem",
+    fontSize: "1.5rem", // Reduced from 2rem
+    fontSizeMobile: "1rem", // Reduced from 1.3rem
     fontFamily: "DM Mono",
     indent: "5%",
     indentMobile: "2%",
@@ -57,8 +57,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Photo",
-    fontSize: "5rem", // Reduced from 6rem
-    fontSizeMobile: "3.2rem",
+    fontSize: "4.5rem", // Reduced from 5rem
+    fontSizeMobile: "2.5rem", // Reduced from 3.2rem
     fontFamily: "Bebas Neue",
     indent: "30%",
     indentMobile: "12%",
@@ -67,8 +67,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Photomator",
-    fontSize: "2.5rem",
-    fontSizeMobile: "1.4rem",
+    fontSize: "2rem", // Reduced from 2.5rem
+    fontSizeMobile: "1.1rem", // Reduced from 1.4rem
     fontFamily: "DM Mono",
     indent: "15%",
     indentMobile: "6%",
@@ -77,8 +77,8 @@ const toolSpecs: ToolSpec[] = [
   },
   {
     name: "Affinity Publisher",
-    fontSize: "4rem",
-    fontSizeMobile: "2.1rem",
+    fontSize: "3.5rem", // Reduced from 4rem
+    fontSizeMobile: "1.8rem", // Reduced from 2.1rem
     fontFamily: "Bebas Neue",
     indent: "40%",
     indentMobile: "8%",
@@ -200,7 +200,7 @@ export default function Tools() {
           </div>
         </div>
 
-        {/* Tools stack - left aligned with indents, tight spacing */}
+        {/* Tools stack - minimal spacing to fit viewport */}
         <div className="flex-1 flex flex-col justify-center px-4 md:px-16">
           {toolSpecs.map((tool, index) => {
             const displayText = typingStates[index] || "";
@@ -215,8 +215,8 @@ export default function Tools() {
                   paddingLeft: isMobile ? tool.indentMobile : tool.indent,
                   opacity: isVisible ? 1 : 0,
                   transition: "opacity 0.3s ease",
-                  lineHeight: "1",
-                  marginBottom: index < toolSpecs.length - 1 ? "0.25rem" : "0",
+                  lineHeight: "0.9", // Reduced from 1
+                  marginBottom: index < toolSpecs.length - 1 ? "0.05rem" : "0", // Minimal gap
                 }}
                 onMouseEnter={() => setHoveredTool(index)}
                 onMouseLeave={() => setHoveredTool(null)}
@@ -228,7 +228,7 @@ export default function Tools() {
                   style={{
                     fontSize: isMobile ? tool.fontSizeMobile : tool.fontSize,
                     fontFamily: tool.fontFamily === "Bebas Neue" ? "Bebas Neue, sans-serif" : "DM Mono, monospace",
-                    lineHeight: "1",
+                    lineHeight: "0.9", // Reduced from 1
                     textTransform: tool.fontFamily === "Bebas Neue" ? "uppercase" : "lowercase",
                   }}
                 >
