@@ -87,6 +87,15 @@ section {
   }
 }
 
+@keyframes cursorBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
 @keyframes wobble {
   0%, 100% {
     transform: rotate(0deg);
