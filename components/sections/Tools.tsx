@@ -153,7 +153,7 @@ export default function Tools() {
                 onMouseEnter={() => setHoveredTool(index)}
                 onMouseLeave={() => setHoveredTool(null)}
                 onTouchStart={() => setHoveredTool(index)}
-                onTouchEnd={() => setHoveredTool(null))}
+                onTouchEnd={() => setHoveredTool(null)}
               >
                 <div
                   className="tool-name inline-block relative"
