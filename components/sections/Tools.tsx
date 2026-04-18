@@ -81,40 +81,39 @@ export default function Tools() {
         })}
       </div>
 
-      {/* Mobile - Three irregular columns */}
-      <div className="md:hidden relative h-full px-4 py-8">
-        <div className="grid grid-cols-3 gap-4 h-full items-center">
-          {tools.map((tool, index) => {
-            const mobileStyles = [
-              { fontSize: "1.25rem", fontFamily: "DM Mono, monospace", fontWeight: "bold" },
-              { fontSize: "1.5rem", fontFamily: "Bebas Neue, sans-serif", color: "#CAFF00", WebkitTextStroke: "1px #0D0D0D" },
-              { fontSize: "0.85rem", fontFamily: "Bebas Neue, sans-serif", letterSpacing: "1px" },
-              { fontSize: "1.1rem", fontFamily: "DM Mono, monospace", fontWeight: "500" },
-              { fontSize: "0.75rem", fontFamily: "Playfair Display, serif", fontStyle: "italic" },
-              { fontSize: "1.2rem", fontFamily: "Bebas Neue, sans-serif" },
-              { fontSize: "0.8rem", fontFamily: "DM Mono, monospace" },
-            ];
-            const style = mobileStyles[index % mobileStyles.length];
+      {/* Mobile - Scattered positioning */}
+      <div className="md:hidden relative h-full px-4 py-8 overflow-hidden">
+        {tools.map((tool, index) => {
+          // Scattered positions for mobile (more spread out)
+          const mobilePositions = [
+            { left: "5%", top: "12%", fontSize: "1.8rem", fontFamily: "Bebas Neue, sans-serif" },
+            { left: "60%", top: "25%", fontSize: "2.2rem", fontFamily: "Bebas Neue, sans-serif", color: "#CAFF00", WebkitTextStroke: "1.5px #0D0D0D" },
+            { left: "15%", top: "40%", fontSize: "1.6rem", fontFamily: "DM Mono, monospace", fontWeight: "bold" },
+            { left: "70%", top: "55%", fontSize: "1.9rem", fontFamily: "Bebas Neue, sans-serif" },
+            { left: "8%", top: "70%", fontSize: "1.7rem", fontFamily: "DM Mono, monospace", fontWeight: "500" },
+            { left: "55%", top: "85%", fontSize: "2rem", fontFamily: "Bebas Neue, sans-serif" },
+            { left: "25%", top: "95%", fontSize: "1.5rem", fontFamily: "DM Mono, monospace" },
+          ];
+          const pos = mobilePositions[index % mobilePositions.length];
 
-            return (
-              <div
-                key={tool}
-                className="cursor-pointer interactive"
-                style={{
-                  ...style,
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? "translateY(0)" : "translateY(-100vh)",
-                  transition: `opacity 0.4s ease, transform ${0.4 + (index % 4) * 0.1}s cubic-bezier(0.34, 1.56, 0.64, 1)`,
-                  animation: isVisible ? `wobble 0.6s ease-in-out 2 ${0.4 + (index % 4) * 0.1}s` : "none",
-                  gridColumn: (index % 3) + 1,
-                  gridRow: Math.floor(index / 3) + 1,
-                }}
-              >
-                {tool}
-              </div>
-            );
-          })}
-        </div>
+          return (
+            <div
+              key={tool}
+              className="cursor-pointer interactive absolute bg-bg px-2"
+              style={{
+                ...pos,
+                textTransform: "uppercase",
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateY(0)" : "translateY(-100vh)",
+                transition: `opacity 0.4s ease, transform ${0.4 + (index % 4) * 0.1}s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                animation: isVisible ? `wobble 0.6s ease-in-out 2 ${0.4 + (index % 4) * 0.1}s` : "none",
+                zIndex: pos.color === "#CAFF00" ? 11 : 10,
+              }}
+            >
+              {tool}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
