@@ -132,7 +132,13 @@ export default function Experience() {
                 transformOrigin: "left",
               }}
             >
-              <h3 className={`text-bebas text-xl ${index === 0 ? "text-lime" : "text-ink"}`}>
+              <h3
+                className={`text-bebas text-xl ${index === 0 ? "text-lime" : "text-ink"}`}
+                style={{
+                  textShadow: index === 0 ? "1px 1px 0 #0D0D0D, -1px -1px 0 #0D0D0D, 1px -1px 0 #0D0D0D, -1px 1px 0 #0D0D0D" : "none",
+                  lineHeight: 1.1,
+                }}
+              >
                 {job.company}
               </h3>
               <p className="text-dm-mono text-xs text-ink mt-1">{job.role}</p>
